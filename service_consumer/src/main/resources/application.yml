@@ -1,0 +1,11 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: SERVICE_CONSUMER # 服务名称
+eureka:
+  client:
+    service-url: # 刚刚在Eureka Server 配置的请求地址
+      defaultZone: http://localhost:9000/eureka/
+    fetch-registry: true
+    register-with-eureka: false

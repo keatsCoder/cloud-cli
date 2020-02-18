@@ -1,0 +1,13 @@
+server:
+  port: 9000
+eureka:
+  server:
+    enable-self-preservation: false # 关闭自我保护
+    eviction-interval-timer-in-ms: 4000 # 剔除服务间隔，单位/ms
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # 是否将自己注册到注册中心
+    fetch-registry: false # 是否从Eureka中获取注册信息
+    service-url: # Eureka Client 的请求地址
+      default-zone: http://#{eureka.instance.hostname}:#{server.port}/eureka/

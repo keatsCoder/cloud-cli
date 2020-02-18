@@ -1,0 +1,19 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: SERVICE_PROVIDER # 服务名称
+  datasource:
+    url: jdbc:mysql://192.168.25.128:3306/mysql?characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 521
+    username: keats
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka/ # 刚刚在Eureka Server 配置的请求地址
+    register-with-eureka: true # 注册到注册中心
+    fetch-registry: false # 作为服务提供者，可以不用从Eureka获取注册信息。视实际情况而定
+    eureka-server-connect-timeout-seconds:
+  instance:
+    prefer-ip-address: true # 使用IP地址注册
