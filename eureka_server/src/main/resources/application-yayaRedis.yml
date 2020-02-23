@@ -1,16 +1,10 @@
-server:
-  port: 9000
+# 可以专门用来配置Redis的信息。这里因为用不到Redis。我就用除端口以外的其他配置信息填充了
 eureka:
   server:
     enable-self-preservation: false # 关闭自我保护
-    eviction-interval-timer-in-ms: 10000 # 剔除服务间隔，单位/ms
-  instance:
-    hostname: localhost
+    eviction-interval-timer-in-ms: 4000 # 剔除服务间隔，单位/ms
   client:
     register-with-eureka: true # 是否将自己注册到注册中心
     fetch-registry: true # 是否从Eureka中获取注册信息
     service-url: # Eureka Client 的请求地址
-      defaultZone: http://localhost:9100/eureka
-spring:
-  application:
-    name: EUREKA-SERVER
+      defaultZone: http://localhost:9000/eureka

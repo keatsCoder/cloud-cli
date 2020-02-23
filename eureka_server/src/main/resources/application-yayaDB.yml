@@ -1,0 +1,7 @@
+# 专门配置DB 的yml，实际项目中可以根据需求，配置文件多了需要分类就分类，少了用不着分类就一种环境一个YML
+# 这里因为Eureka服务用不到连接数据库，用端口号配置信息代替
+server:
+  port: 9100
+spring:
+  application:
+    name: EUREKA-SERVER
