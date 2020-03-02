@@ -176,4 +176,45 @@ eureka:
   server:
     enable-self-preservation: false # 关闭自我保护
 ```
+## Eureka集群
+
+我给项目搭建了Eureka注册中心，和配套的服务提供方与服务消费方。完成了服务的灵活调用。从此我们可以将项目中的各个模块都拆分成微服务，注册到注册中心相互调用。但此做法在带来便利性的同时，也为我们带来的隐患：**如果Eureka宕掉，怎么办？**
+
+解决办法就是**搭建Eureka集群**，一个Eureka倒下了，还有另一个Eureka兄弟顶着。那如何搭建Eureka集群呢？
+
+这个问题Spring已经帮我们解决了。通过 Eureka **服务端之间相互注册**的方式，Eureka 服务端就会互相同步注册信息，好兄弟嘛，你的就是我的，我的也是你的。
+
+我在项目中用 SpringProfile 来模拟 Eureka 集群的运行，具体的操作方法见[SpringProfile轻松切换多环境配置文件](https://www.cnblogs.com/keatsCoder/p/12347382.html)：
+
+1. 首先在修改两个 yml 文件的端口，避免端口冲突
+2. 打开 Eureka 服务将自己注册到服务的开关、打开 Eureka 服务从服务获取注册信息的开关
+3. 配置对方的服务地址
+4. 启动两个 Eureka 服务端
+
+这样就完成了两个Eureka服务端的搭建。此时有任何一个服务端收到服务注册，都会同步到另一个。所以理论上我们可以将服务端注册到其中任何一个，但是为了保险起见。我们还是**将服务注册到每个Eureka上**。实现方法就是**将 defaultZone 的值填写多个Eureka的地址，用逗号隔开**
+
+### 其他优化项目
+
+#### 在控制台显示服务的IP
+
+```yml
+eureka:
+  instance:
+    prefer-ip-address: true # 使用IP地址注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} # 自定义注册ID为ip:端口的格式
+```
+
+#### 修改服务剔除时间
+
+默认情况下，服务提供者每隔30S会发送一次心跳到Eureka服务端，且在90S内未接收心跳才会剔除服务。开发阶段来说这个优点长了。可通过以下配置修改
+
+```yml
+eureka:
+  instance:
+    prefer-ip-address: true # 使用IP地址注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} # 自定义注册ID为ip:端口的格式
+    lease-renewal-interval-in-seconds: 5 #发送心跳的间隔
+    lease-expiration-duration-in-seconds: 10 #续约到期时间
+```
+
 

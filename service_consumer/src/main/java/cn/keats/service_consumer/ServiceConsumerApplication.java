@@ -2,6 +2,7 @@ package cn.keats.service_consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,7 +13,14 @@ public class ServiceConsumerApplication {
         SpringApplication.run(ServiceConsumerApplication.class, args);
     }
 
+    /**
+     * 将RestTemplate 对象提交给Spring容器管理
+     *
+     * @LoadBalanced 使用基于Ribbon负载均衡的 RestTemplate
+     * @return
+     */
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }

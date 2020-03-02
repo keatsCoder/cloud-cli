@@ -1,8 +1,8 @@
 server:
-  port: 9002
+  port: 9005
 spring:
   application:
-    name: SERVICE_PROVIDER # 服务名称
+    name: SERVICE-PROVIDER # 服务名称
   datasource:
     url: jdbc:mysql://192.168.25.128:3306/mysql?characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
     driver-class-name: com.mysql.cj.jdbc.Driver
