@@ -14,6 +14,12 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    /**
+     * 模拟服务提供方，根据age 查找一个用户
+     * @param age
+     * @return
+     */
     @Override
     public User getUser(Integer age) {
         User user = new User();
@@ -27,6 +33,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * 模拟服务提供方 获取用户列表
+     * @return
+     */
     @Override
     public List<User> getUsers() {
         List<User> userList = new ArrayList<>();

@@ -10,7 +10,7 @@ spring:
 eureka:
   client:
     service-url: # 刚刚在Eureka Server 配置的请求地址
-      defaultZone: http://localhost:9000/eureka/,http://localhost:9100/eureka/
+      defaultZone: http://localhost:9000/eureka/ # ,http://localhost:9100/eureka/
     fetch-registry: true
     register-with-eureka: false
 
@@ -23,3 +23,13 @@ SERVICE-PROVIDER:
     OkToRetryOnAllOperations: true # 是否对所有操作都进行重试
     MaxAutoRetriesNextServer: 1 # 切换实例的重试次数
     MaxAutoRetries: 1 # 对当前实例的重试次数(包含第一次请求，即配置1相当于请求超时就切换)
+
+# feign的配置
+feign:
+  client:
+    config:
+      SERVICE-PROVIDER:
+        loggerLevel: FULL # NONE(默认选项), BASIC, HEADERS, FULL; 内容依次丰富、性能影响依次增大
+logging:
+  level:
+    cn.keats.service_consumer.feign.UserServiceFeignClient: debug

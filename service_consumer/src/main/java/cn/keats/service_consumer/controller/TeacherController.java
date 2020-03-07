@@ -1,6 +1,7 @@
 package cn.keats.service_consumer.controller;
 
 import cn.keats.service_consumer.entity.User;
+import cn.keats.service_consumer.feign.UserServiceFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,33 +20,48 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 public class TeacherController {
-    @Autowired
-    private RestTemplate restTemplate;
+//    @Autowired
+//    private RestTemplate restTemplate;
 //    @Autowired
 //    private DiscoveryClient discoveryClient;
+    @Autowired
+    private UserServiceFeignClient userServiceFeignClient;
+
+    /**
+     * 基于 Feign 的优雅的接口调用方式
+     */
+    @GetMapping("teacher/user/{age}")
+    public User getAllUser(@PathVariable Integer age){
+        return userServiceFeignClient.getUser(age);
+    }
+
+    @GetMapping("teacher/users")
+    public List getAllUser(){
+        return userServiceFeignClient.getUsers();
+    }
 
     /**
      * 基于 Ribbon 的调用。直接使用服务名称. 返回服务提供者的IP和端口
      */
-    @GetMapping("ip")
-    public String getUrl(){
-        return restTemplate.getForObject("http://SERVICE-PROVIDER/api/v1/ribbon", String.class);
-    }
+//    @GetMapping("ip")
+//    public String getUrl(){
+//        return restTemplate.getForObject("http://SERVICE-PROVIDER/api/v1/ribbon", String.class);
+//    }
 
     /**
      * 基于 Ribbon 的调用。直接使用服务名称
      * @param age
      * @return
      */
-    @GetMapping("teacher/user/{age}")
-    public User getAllUser(@PathVariable Integer age){
-        return restTemplate.getForObject("http://SERVICE-PROVIDER/api/v1/user/{age}", User.class, age);
-    }
+//    @GetMapping("teacher/user/{age}")
+//    public User getAllUser(@PathVariable Integer age){
+//        return restTemplate.getForObject("http://SERVICE-PROVIDER/api/v1/user/{age}", User.class, age);
+//    }
 
-    @GetMapping("teacher/users")
-    public List getAllUser(){
-        return restTemplate.getForObject("http://SERVICE-PROVIDER/api/v1/users", List.class);
-    }
+//    @GetMapping("teacher/users")
+//    public List getAllUser(){
+//        return restTemplate.getForObject("http://SERVICE-PROVIDER/api/v1/users", List.class);
+//    }
 
     /**
      * 使用 RestTemplate 调用不带惨的GET请求

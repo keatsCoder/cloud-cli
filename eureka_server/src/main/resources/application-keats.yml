@@ -7,8 +7,8 @@ eureka:
   instance:
     hostname: localhost
   client:
-    register-with-eureka: true # 是否将自己注册到注册中心
-    fetch-registry: true # 是否从Eureka中获取注册信息
+    register-with-eureka: false # 是否将自己注册到注册中心,根据需要开启/关闭
+    fetch-registry: false # 是否从Eureka中获取注册信息,根据需要开启/关闭
     service-url: # Eureka Client 的请求地址
       defaultZone: http://localhost:9100/eureka
 spring:
