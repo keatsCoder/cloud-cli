@@ -1,7 +1,11 @@
 package cn.keats.service_consumer.controller;
 
 import cn.keats.service_consumer.entity.User;
+import cn.keats.service_consumer.exception.ExceptionEnum;
+import cn.keats.service_consumer.exception.KeatsException;
 import cn.keats.service_consumer.feign.UserServiceFeignClient;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/v1")
+@Slf4j
 public class TeacherController {
 //    @Autowired
 //    private RestTemplate restTemplate;
@@ -30,14 +35,33 @@ public class TeacherController {
     /**
      * 基于 Feign 的优雅的接口调用方式
      */
+//    @HystrixCommand(fallbackMethod = "getUserByAgeFallBack", ignoreExceptions = {KeatsException.class})
     @GetMapping("teacher/user/{age}")
-    public User getAllUser(@PathVariable Integer age){
+    public User getUserByAge(@PathVariable Integer age){
+
+        if(age < 1){
+            throw new KeatsException(ExceptionEnum.NUM_LESS_THAN_MIN);
+        }
+
         return userServiceFeignClient.getUser(age);
     }
 
     @GetMapping("teacher/users")
     public List getAllUser(){
         return userServiceFeignClient.getUsers();
+    }
+
+    /**
+     * Hystrix 回调
+     * @param age
+     * @return
+     */
+    public User getUserByAgeFallBack(Integer age, Throwable t){
+        User user = new User();
+        log.error("远程服务调用失败", t);
+        user.setName("默认用户");
+        user.setAge(age);
+        return user;
     }
 
     /**

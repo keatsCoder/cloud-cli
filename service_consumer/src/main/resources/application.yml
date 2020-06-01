@@ -19,6 +19,26 @@ eureka:
     lease-renewal-interval-in-seconds: 5 #发送心跳的间隔
     lease-expiration-duration-in-seconds: 10 #续约到期时间
 
+# actuator监控
+management:
+  endpoints:
+    web:
+      # 设置是否暴露端点 默认只有health和info可见
+      exposure:
+        # 包括所有端点
+        include: "*" # 注意需要添加引号
+        # 排除端点
+        exclude: shutdown
+  endpoint:
+    health:
+      show-details: always
+    #可以关闭指定的端点
+    shutdown:
+      enabled: false
+info:
+  app:
+    name: ${spring.application.name}
+
 # 可以通过 服务名：ribbon:NFLoadBalancerRuleClassName: 对应的策略全类名
 SERVICE-PROVIDER:
   ribbon:
@@ -35,6 +55,11 @@ feign:
     config:
       SERVICE-PROVIDER:
         loggerLevel: FULL # NONE(默认选项), BASIC, HEADERS, FULL; 内容依次丰富、性能影响依次增大
+  hystrix:
+    enabled: true # 打开 feign 的 hystrix 支持
+
+# 日志
 logging:
+  config: classpath:logback.xml
   level:
     cn.keats.service_consumer.feign.UserServiceFeignClient: debug

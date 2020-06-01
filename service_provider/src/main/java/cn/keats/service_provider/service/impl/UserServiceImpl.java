@@ -2,9 +2,11 @@ package cn.keats.service_provider.service.impl;
 
 import cn.keats.service_provider.entity.User;
 import cn.keats.service_provider.service.UserService;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**

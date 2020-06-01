@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
+    <logger name="org.springframework.web" level="INFO"/>
+    <logger name="org.springboot.sample" level="TRACE" />
+    <logger name="java.sql.Connection" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" level="DEBUG" />
+    <logger name="org.apache.ibatis" level="DEBUG" />
+    <logger name="org.woke.hall" level="DEBUG" />
+    <logger name="woke.cloud.property" level="DEBUG" />
+    <logger name="java.sql" level="INFO"/>
+    <logger name="com.ibatis" level="INFO"/>
+    <!-- 控制台输出配置 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <Pattern>[%d] [%thread] [%level] [%file:%line] %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <!-- INFO 输出配置 -->
+    <appender name="logInfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>/home/logs/service-consumer/info.log</File>
+        <encoder>
+            <Pattern>[%d] [%thread] [%level] [%file:%line] %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/home/logs/service-consumer/%d{yyyy-MM-dd}.%i/info.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- ERROR 输出配置 -->
+    <appender name="logErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>/home/logs/service-consumer/error.log</File>
+        <encoder>
+            <Pattern>[%d] [%thread] [%level] [%file:%line] %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/home/logs/service-consumer/%d{yyyy-MM-dd}.%i/error.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+
+    <!-- 日志输出适配器配置 -->
+    <root level="INFO" name="com">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="logInfoFile"/>
+        <appender-ref ref="logErrorFile"/>
+    </root>
+
+</configuration>
