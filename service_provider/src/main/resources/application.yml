@@ -3,11 +3,6 @@ server:
 spring:
   application:
     name: SERVICE-PROVIDER # 服务名称
-  datasource:
-    url: jdbc:mysql://192.168.25.128:3306/mysql?characterEncoding=UTF-8&useSSL=false&serverTimezone=CTT
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: 521
-    username: keats
 eureka:
   client:
     service-url:

@@ -1,0 +1,24 @@
+server:
+  port: 80
+eureka:
+  client:
+    service-url:
+      defaultZone: http://keats:521@localhost:9000/eureka/ #, http://localhost:9100/eureka/ 在Eureka Server 配置的请求地址.可以使用 ， 来配置多个
+    register-with-eureka: true # 注册到注册中心
+    fetch-registry: true # 作为服务提供者，可以不用从Eureka获取注册信息。视实际情况而定
+  instance:
+    prefer-ip-address: true # 使用IP地址注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} # 自定义注册ID为ip:端口的格式
+    lease-renewal-interval-in-seconds: 5 #发送心跳的间隔
+    lease-expiration-duration-in-seconds: 10 #续约到期时间
+spring:
+  application:
+    name: GATEWAY
+
+
+logging:
+  level:
+    com.netflix.zuul: DEBUG
+zuul:
+  routes:
+    SERVICE-CONSUMER: /consumer/**

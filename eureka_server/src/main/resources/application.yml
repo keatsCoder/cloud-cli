@@ -2,5 +2,7 @@ spring:
   profiles:
 #    active: yaya
     active: keats
+  application:
+    name: EUREKA-SERVER
 server:
   port: 9001 # 如果被激活的 yml 中有相同的配置，会覆盖此值

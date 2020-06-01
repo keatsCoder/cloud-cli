@@ -12,7 +12,12 @@ eureka:
     service-url: # 刚刚在Eureka Server 配置的请求地址
       defaultZone: http://localhost:9000/eureka/ # ,http://localhost:9100/eureka/
     fetch-registry: true
-    register-with-eureka: false
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} # 自定义注册ID为ip:端口的格式
+    lease-renewal-interval-in-seconds: 5 #发送心跳的间隔
+    lease-expiration-duration-in-seconds: 10 #续约到期时间
 
 # 可以通过 服务名：ribbon:NFLoadBalancerRuleClassName: 对应的策略全类名
 SERVICE-PROVIDER:
